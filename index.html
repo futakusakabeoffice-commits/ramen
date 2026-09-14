@@ -21,15 +21,60 @@
 
   .sns-pill{padding:10px 18px;border:1px solid #3A3632;border-radius:999px;font:400 12px/1 'Noto Sans JP',sans-serif;color:#F5F1EA;letter-spacing:.08em}
   .sns-pill:hover{border-color:#C9A227}
+
+  .nav-toggle-wrap{display:none}
+  .nav-toggle-input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer;z-index:2}
+  .nav-toggle-btn{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;pointer-events:none}
+  .nav-toggle-btn span{display:block;width:22px;height:2px;background:#F5F1EA;transition:transform .3s,opacity .3s}
+
+  @media (max-width:639px){
+    h1{font-size:2rem!important}
+
+    .hdr-x{padding:20px 20px 0!important}
+    .hdr-x img{width:140px!important}
+    .nav-toggle-wrap{display:block;position:relative;width:26px;height:22px}
+    .nav-toggle-input:focus-visible ~ .nav-toggle-btn{outline:2px solid #C9A227;outline-offset:6px}
+
+    .site-nav{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:28px!important;position:fixed;inset:0;background:#111010;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .25s ease;z-index:30;padding:0!important}
+    .site-nav a,.site-nav span{font-size:16px!important;letter-spacing:.08em!important}
+    .nav-toggle-wrap:has(.nav-toggle-input:checked) ~ .site-nav{opacity:1;visibility:visible;pointer-events:auto}
+    .nav-toggle-wrap:has(.nav-toggle-input:checked) .nav-toggle-btn span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .nav-toggle-wrap:has(.nav-toggle-input:checked) .nav-toggle-btn span:nth-child(2){opacity:0}
+    .nav-toggle-wrap:has(.nav-toggle-input:checked) .nav-toggle-btn span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+    .sec-x{padding-left:20px!important;padding-right:20px!important}
+    .card-x{padding-left:24px!important;padding-right:24px!important}
+    .cta-pad{padding:28px 20px!important}
+    .bleed-x{margin-left:-20px!important;margin-right:-20px!important;padding:32px 20px!important}
+
+    .hero-split{grid-template-columns:1fr!important;padding-top:0!important}
+    .hero-split>div:first-child{padding:40px 20px 32px!important}
+    .hero-split>div:last-child{border-left:none!important;border-top:1px solid #3A3632}
+
+    .overlap-card{margin:-40px 20px 0!important;padding:28px 22px 24px!important}
+    .info-row{grid-template-columns:1fr!important;gap:6px!important}
+
+    .ph-600{min-height:340px!important}
+    .ph-520{min-height:300px!important}
+    .ph-420{min-height:260px!important}
+    .ph-320{min-height:220px!important}
+
+    .footer-x{padding:40px 20px 32px!important}
+    .sns-row{justify-content:center!important}
+  }
 </style>
 </head>
 <body>
 
 <div style="background:#111010;font-family:'Noto Sans JP',sans-serif;overflow-x:hidden">
 
-  <header style="display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap;padding:32px 44px 0">
+  <header class="hdr-x" style="display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap;padding:32px 44px 0">
     <img src="images/logo.png" alt="麺処 隼 HAYABUSA / SINCE 3 GEN." style="width:190px;height:auto;display:block">
-    <nav style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+    <div class="nav-toggle-wrap">
+      <input type="checkbox" id="nav-toggle" class="nav-toggle-input" aria-label="メニューを開閉する">
+      <label for="nav-toggle" class="nav-toggle-btn"><span></span><span></span><span></span></label>
+    </div>
+    <nav class="site-nav" style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">
       <a href="kodawari.html" style="font:400 12px/1 'Noto Sans JP',sans-serif;color:#9C948A;letter-spacing:.1em">こだわり</a>
       <a href="menu.html" style="font:400 12px/1 'Noto Sans JP',sans-serif;color:#9C948A;letter-spacing:.1em">MENU</a>
       <a href="founder.html" style="font:400 12px/1 'Noto Sans JP',sans-serif;color:#9C948A;letter-spacing:.1em">店主紹介</a>
@@ -38,7 +83,7 @@
     </nav>
   </header>
 
-  <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.75fr);align-items:end;padding:72px 0 0">
+  <div class="hero-split" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.75fr);align-items:end;padding:72px 0 0">
     <div style="padding:0 56px 72px;animation:heroUp .9s ease both">
       <div style="font:500 11px/1 'EB Garamond',serif;color:#C9A227;letter-spacing:.36em;margin-bottom:28px">TORI-PAITAN RAMEN</div>
       <h1 style="margin:0 0 28px;font:600 clamp(38px,5vw,68px)/1.28 'Shippori Mincho',serif;color:#F5F1EA;letter-spacing:.09em;text-indent:-.09em">一杯に、<br>噓はない。</h1>
@@ -48,13 +93,13 @@
         <span style="font:400 12.5px/1 'Noto Sans JP',sans-serif;color:#9C948A;letter-spacing:.1em">11:00〜15:00 / 18:00〜21:00　火曜定休</span>
       </div>
     </div>
-    <div style="position:relative;min-height:600px;background:#1A1918;border-left:1px solid #3A3632;overflow:hidden">
+    <div class="ph-600" style="position:relative;min-height:600px;background:#1A1918;border-left:1px solid #3A3632;overflow:hidden">
       <img src="images/hero-bowl.jpg" alt="特製隼らーめん" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%">
       <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(17,16,16,.85),rgba(17,16,16,0) 45%)"></div>
     </div>
   </div>
 
-  <section id="kodawari" style="background:#2E2B28;padding:80px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:64px;align-items:start">
+  <section id="kodawari" class="sec-x" style="background:#2E2B28;padding:80px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:64px;align-items:start">
     <div>
       <div style="font:700 13px/1 'Noto Sans JP',sans-serif;color:#C9A227;letter-spacing:.15em">KODAWARI</div>
       <h2 style="margin:10px 0 28px;font:700 28px/1.45 'Shippori Mincho',serif;color:#F5F1EA;letter-spacing:.06em"><a href="kodawari.html" style="color:#F5F1EA">一杯に込めた想い</a></h2>
@@ -68,7 +113,7 @@
     </div>
   </section>
 
-  <section id="menu" style="padding:72px 56px 80px">
+  <section id="menu" class="sec-x" style="padding:72px 56px 80px">
     <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:40px">
       <div>
         <div style="font:700 13px/1 'Noto Sans JP',sans-serif;color:#C9A227;letter-spacing:.15em">MENU</div>
@@ -113,10 +158,10 @@
   </section>
 
   <section id="founder" style="background:#2E2B28;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));align-items:stretch">
-    <div style="position:relative;min-height:520px;background:#232120;overflow:hidden">
+    <div class="ph-520" style="position:relative;min-height:520px;background:#232120;overflow:hidden">
       <img src="images/founder-portrait.jpg" alt="三代目店主" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:grayscale(100%) contrast(1.05)">
     </div>
-    <div style="padding:80px 56px;display:flex;flex-direction:column;justify-content:center">
+    <div class="sec-x" style="padding:80px 56px;display:flex;flex-direction:column;justify-content:center">
       <div style="font:700 13px/1 'Noto Sans JP',sans-serif;color:#C9A227;letter-spacing:.15em">FOUNDER</div>
       <h2 style="margin:10px 0 28px;font:700 28px/1.45 'Shippori Mincho',serif;color:#F5F1EA;letter-spacing:.06em"><a href="founder.html" style="color:#F5F1EA">店主の歩み</a></h2>
       <p style="margin:0 0 20px;font:400 15px/1.9 'Noto Sans JP',sans-serif;color:#F5F1EA;max-width:46ch;text-wrap:pretty">祖父が屋台からはじめた一杯を、父が受け継ぎ、そして三代目である私がこの暖簾を守っています。</p>
@@ -126,12 +171,12 @@
   </section>
 
   <section id="contact" style="padding:0 0 96px">
-    <div style="position:relative;min-height:420px;background:#1A1918;overflow:hidden">
+    <div class="ph-420" style="position:relative;min-height:420px;background:#1A1918;overflow:hidden">
       <img src="images/shop-interior.jpg" alt="麺処 隼 店内" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
       <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.5),rgba(0,0,0,.65))"></div>
       <div style="position:absolute;left:56px;top:56px;font:600 clamp(28px,3.4vw,44px)/1.35 'Shippori Mincho',serif;color:#F5F1EA;letter-spacing:.1em;z-index:2">店舗情報・お問い合わせ</div>
     </div>
-    <div style="max-width:920px;margin:-96px auto 0;position:relative;background:#1A1918;border:1px solid #3A3632;border-radius:8px;padding:48px 48px 40px">
+    <div class="overlap-card" style="max-width:920px;margin:-96px auto 0;position:relative;background:#1A1918;border:1px solid #3A3632;border-radius:8px;padding:48px 48px 40px">
       <div style="display:flex;flex-direction:column">
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;border-bottom:1px dashed #3A3632;padding:0 0 18px"><span style="font:400 12.5px/1.6 'Noto Sans JP',sans-serif;color:#9C948A;letter-spacing:.14em">営業時間</span><span style="font:400 15px/1.7 'Noto Sans JP',sans-serif;color:#F5F1EA">11:00〜15:00 / 18:00〜21:00（L.O. 20:30）</span></div>
         <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;border-bottom:1px dashed #3A3632;padding:18px 0"><span style="font:400 12.5px/1.6 'Noto Sans JP',sans-serif;color:#9C948A;letter-spacing:.14em">定休日</span><span style="font:400 15px/1.7 'Noto Sans JP',sans-serif;color:#F5F1EA">毎週火曜日</span></div>
@@ -145,7 +190,7 @@
     </div>
   </section>
 
-  <footer style="border-top:1px solid #3A3632;padding:56px 56px 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:40px;align-items:start">
+  <footer class="footer-x" style="border-top:1px solid #3A3632;padding:56px 56px 40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:40px;align-items:start">
     <div>
       <img src="images/logo.png" alt="麺処 隼" style="width:170px;height:auto;display:block">
       <p style="margin:16px 0 0;font:400 12.5px/1.9 'Noto Sans JP',sans-serif;color:#9C948A">運営：麺処 隼（個人事業主：〇〇 〇〇）<br>東京都〇〇区〇〇1-2-3</p>
@@ -159,7 +204,7 @@
     </nav>
     <div style="display:flex;flex-direction:column;gap:16px">
       <div style="font:400 11px/1 'EB Garamond',serif;color:#C9A227;letter-spacing:.3em">FOLLOW</div>
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <div class="sns-row" style="display:flex;gap:12px;flex-wrap:wrap">
         <a href="https://instagram.com/hayabusa_ramen" class="sns-pill">Instagram</a>
         <a href="https://x.com/hayabusa_ramen" class="sns-pill">X</a>
         <a href="https://maps.google.com/?q=麺処隼" class="sns-pill">Google Maps</a>
