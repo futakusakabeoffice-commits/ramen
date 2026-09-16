@@ -8,21 +8,30 @@
 - スタイルは各ページの `<head>` 内 `<style>`（共通の `.btn-*` / `.sns-pill` クラスとキーフレーム）と、**要素ごとのインライン `style` 属性**の組み合わせ。外部CSSファイルは無い。
 - JavaScript なし。全ページ完全に静的。ハンバーガーメニューの開閉もJSではなく「checkboxハック」(CSSの `:has()` 利用)で実装している。
 - フォントは Google Fonts を `<link>` で読み込み（`Shippori Mincho` / `Noto Sans JP` / `EB Garamond`）。
-- 画像は `images/` 配下のJPG/PNGをそのまま参照（最適化・レスポンシブ画像なし）。
+- 写真（JPG由来）は **WebP** に変換して配信（`images/*.webp`）。元のJPGは `images/*.jpg` として残置（バックアップ／再変換用ソース。HTMLからは参照していない）。`logo.png` のみ透過PNGのまま。ロゴ以外の `<img>` には実寸の `width`/`height` 属性を付与済み（CLSのため）。ファーストビュー外の画像には `loading="lazy"` を付与。
 
 ## ファイル構成
 
 ```
-index.html       トップページ（HERO / こだわり / 人気メニュー / 店主紹介 / 店舗情報・お問い合わせ / フッター）
-kodawari.html    こだわり 単独ページ
-menu.html        MENU 単独ページ
-founder.html     店主紹介 単独ページ
-shop.html        店舗情報・お問い合わせ 単独ページ（#contact）
-images/          hero-bowl.jpg, founder-portrait.jpg, shop-interior.jpg,
-                 menu-tokusei.jpg, menu-shoyu.jpg, menu-tsukemen.jpg, menu-seasonal.jpg,
-                 logo.png
-CONTENTS.md      テキスト・構成のソース・オブ・トゥルース（コピー、メニュー内容、メタ情報の原案）
-DESIGN.md        ビジュアルデザイン仕様書（カラー・タイポグラフィ・コンポーネント規則）
+index.html          トップページ（HERO / こだわり / 人気メニュー / 店主紹介 / 店舗情報・お問い合わせ / フッター）
+kodawari.html        こだわり 単独ページ
+menu.html            MENU 単独ページ
+founder.html         店主紹介 単独ページ
+shop.html            店舗情報・お問い合わせ 単独ページ（#contact）
+404.html             カスタム404ページ（トップへの導線あり、robots: noindex）
+privacy-policy/
+  index.html         プライバシーポリシー（`/privacy-policy` のクリーンURLで配信するためディレクトリ+index.html構成）
+robots.txt           クロール許可 + sitemap.xml参照
+sitemap.xml           全公開ページのURL一覧（ドメインは要差し替え、下記参照）
+site.webmanifest      PWA向けマニフェスト
+favicon.ico / favicon-32x32.png / favicon-16x16.png / apple-touch-icon.png
+                      logo.pngから生成したファビコン一式
+images/               hero-bowl.jpg(.webp), founder-portrait.jpg(.webp), shop-interior.jpg(.webp),
+                      menu-tokusei.jpg(.webp), menu-shoyu.jpg(.webp), menu-tsukemen.jpg(.webp), menu-seasonal.jpg(.webp),
+                      logo.png, og-image.jpg（OGP共有画像 1200×630、hero-bowl.jpgから生成）,
+                      icon-192.png, icon-512.png（webmanifest用）
+CONTENTS.md          テキスト・構成のソース・オブ・トゥルース（コピー、メニュー内容、メタ情報の原案）
+DESIGN.md            ビジュアルデザイン仕様書（カラー・タイポグラフィ・コンポーネント規則）
 ```
 
 各下層ページはヘッダー／フッターの構造・ナビゲーションリンクを `index.html` と共通で複製している（共有コンポーネント化・テンプレート化はされていない）。新しいページを追加する場合も同じヘッダー／フッターHTMLをコピーして揃えること。
@@ -36,9 +45,11 @@ DESIGN.md        ビジュアルデザイン仕様書（カラー・タイポグ
 
 以下はまだ実データが入っていないプレースホルダー。ユーザーから実データが提供されたら全ページ一括で置き換えること：
 
-- 住所: `東京都〇〇区〇〇1-2-3`（`index.html` / `shop.html` / フッター全ページ）
+- 住所: `東京都〇〇区〇〇1-2-3`（`index.html` / `shop.html` / フッター全ページ / `privacy-policy/index.html` / 構造化データJSON-LD）
 - 最寄駅: `〇〇線〇〇駅 徒歩5分`
 - 運営者名: `個人事業主：〇〇 〇〇`
+- 電話番号: `03-0000-0000`（`shop.html` の `tel:` リンク、構造化データ、プライバシーポリシー）
+- 本番ドメイン: 全ページの `<link rel="canonical">` / `og:url` / `og:image` / 構造化データの `url`/`image`、および `robots.txt` の `Sitemap:` 行、`sitemap.xml` の全 `<loc>` が `https://example.com` のプレースホルダーになっている。実ドメイン確定後に一括置換すること（`grep -rl "example.com" .` で該当ファイルを検索できる）。
 - `CONTENTS.md` 記載の画像パス（`/images/menu-hayabusa.jpg` 等）は実装のファイル名（`images/menu-tokusei.jpg` 等）と異なる場合がある。実装側のファイル名が正なので、`CONTENTS.md` を参照する際はパスではなく文言・構成を参照すること。
 - `CONTENTS.md` にある「6. 掲載メディア（#media）」セクションは現時点で `index.html` 等の実装にまだ反映されていない（未実装）。
 - Google Maps / Instagram / X のリンクは `麺処隼` `hayabusa_ramen` のダミー想定URL。実店舗のURLに要差し替え。
@@ -76,3 +87,44 @@ DESIGN.mdの「モバイルファースト」「640px未満は横並びナビ禁
 - **shop.htmlの項目リスト（店名・営業時間など）**: 各行に `.info-row` を付与し、639px以下で `grid-template-columns:1fr` にしてラベル/値を縦積みに（固定110px幅カラムのままだと値が狭くなりすぎるため）。
 
 新しいセクションを追加・編集する際は、既存の同種要素（セクション=`sec-x`、カード=`card-x`、写真ヒーロー=`ph-*`）がどのクラスを使っているか近い実装を探し、パターンを踏襲すること。
+
+## リリース前チェックリスト対応状況（2026-09-16実施）
+
+ユーザー提供の「リリース前チェックリスト」（全48項目）を全5ページに対して確認・修正した記録。次回チェック時や新規ページ追加時の参考にすること。
+
+### 対応済み
+
+- **meta title**: 全ページ「ページ内容｜キーワード | サイト名」形式・全角23〜28字程度に統一（index.htmlのみサイト名を先頭に置くホームページ慣例のパターン）。
+- **meta description**: 全ページ140〜300字で新規作成（CONTENTS.md記載の文言を元に構成）。
+- **canonical / robots meta / og:* / twitter:card**: 全ページ `<head>` に追加（ドメインは `https://example.com` のプレースホルダー、上記「未確定情報」参照）。
+- **favicon一式**: `logo.png` から `favicon.ico`(16/32/48/64px) / `favicon-32x32.png` / `favicon-16x16.png` / `apple-touch-icon.png`(180×180、背景色#111010) / `site.webmanifest`用 `icon-192.png` / `icon-512.png` を生成。`theme-color` は Primary `#B7282E`。
+- **og:image**: `hero-bowl.jpg` から 1200×630 にクロップした `images/og-image.jpg` を生成し全ページで共有。
+- **構造化データ**: 全ページに JSON-LD で `Restaurant`（店舗共通情報。住所・電話は上記プレースホルダーのまま）と `BreadcrumbList`（ページごと）を追加。
+- **画像形式**: 全JPG写真を `cwebp`相当（Pillow, quality 80）で `.webp` に変換し `<img src>` を差し替え（70〜75%軽量化）。元JPGは `images/` に未参照のまま残置。
+- **遅延読込**: 各ページのファーストビュー画像（ヘッダーロゴ、各ページ最初のヒーロー写真）以外の `<img>` に `loading="lazy"` を付与。
+- **CLS対策**: 全 `<img>` に実寸の `width`/`height` 属性を付与。
+- **viewport**: 全ページ既存で問題なし。
+- **レスポンシブ確認**: 375px/768px/1280px/1440pxでPlaywright実機検証済み、崩れ・横スクロールなし。
+- **alt**: 全画像に内容を説明する具体的なaltが既に設定済みであることを確認（装飾用途の画像はCSS背景/グラデーションのみでimgタグ自体が存在しないため該当なし）。
+- **見出し階層**: 全ページ `h1` は1つのみ、`h2` へ直接つながり階層飛ばしなしを確認。
+- **html lang="ja"**: 既存で全ページ対応済みを確認。
+- **リンク切れ**: 内部リンク・画像srcを全ページ機械チェックし、`/privacy-policy` が404だった以外は問題なし（後述の通り解消）。外部リンク（Instagram/X/Google Maps）はダミーURLのため要差し替え（既知の未確定情報）。
+- **コピーライト年号**: `© 麺処 隼` → `© 2026 麺処 隼` に全ページ修正。
+- **404ページ**: `404.html` を新規作成（トップページへの導線あり、`robots: noindex`）。
+- **プライバシーポリシー**: `privacy-policy/index.html` を新規作成し、フッターの `/privacy-policy` リンクを解消（ディレクトリ+index.html構成でクリーンURLに対応。ホスティング側のリダイレクト設定は不要）。本文は本サイトの実態（フォーム無し、電話・SNS問い合わせのみ、GA4導入時に備えたCookie/アクセス解析の記述を含む）に基づく一般的な内容だが、**公開前に事業者本人または専門家によるレビューが必須**。
+- **robots.txt / sitemap.xml / site.webmanifest**: 新規作成（ルート直下）。
+
+### 追加素材・外部アカウント・意思決定が必要で未対応の項目
+
+- **本番ドメイン確定**: canonical/OGP/構造化データ/sitemap.xml/robots.txtの `example.com` を実ドメインに置換（Netlify等でデプロイ後に判明）。
+- **OGPシェア表示確認**: X/Facebookのデバッガーは実際に公開されたURLでないと確認できない。デプロイ後に実施。
+- **Core Web Vitals / Lighthouseスコア**: ローカルの静的ファイルではなく実際にホスティングされたURLで計測する必要がある。デプロイ後に実施。
+- **GA4 / Search Console / GTM / コンバージョン計測**: 実際の測定ID・所有権確認が必要。アカウント発行後に導入。
+- **SSL / HTTP→HTTPSリダイレクト**: Netlifyなどのホスティング側の設定に依存。デプロイ時に確認。
+- **フォーム（送信先・到達確認）**: 本サイトには現状オンラインフォームが存在しない（電話・SNS DMのみ）。フォームを追加する場合に対応。
+- **特定商取引法に基づく表記**: 本サイトはオンライン物販を行っていないため対象外（BtoC通販を始める場合は要追加）。
+- **Cookie同意バナー**: 現状GA4等のトラッキングCookieを導入していないため不要。GA4導入時に個情法/GDPR対象かどうか含めて再検討。
+- **環境変数 / APIキー**: 本サイトはビルド不要の静的サイトでバックエンド・APIキーを持たないため該当なし（`.env`等は存在しない）。
+- **リンク先ダミーデータの実データ化**: 住所・電話番号・運営者名・SNS URL（上記「未確定・仮の情報」参照）。
+- **CSS/JSの外部ファイル化**: チェックリストは「インライン記述はNG、外部ファイル化必須」としているが、本プロジェクトはCLAUDE.md冒頭で定義済みの通り、Claude Design由来の「要素ごとのインライン`style`属性を正とする」設計になっている（数百箇所のインラインstyleをすべて外部CSS化する大規模リファクタリングが必要）。この方針転換はデザイン運用（Claude DesignのUI上で見た目を直接調整する運用）にも影響するため、**ユーザーの明示的な指示があるまで着手していない**。ページ共通の `<style>` ブロック（`<head>`内、要素の外側スタイル定義）自体は外部ファイル化候補だが、今回はスコープ外とした。
+- **リンクホバー色のコントラスト**: DESIGN.mdで定義されている `a:hover{color:#B7282E}`（黒背景上の朱色ホバー文字）はWCAGコントラスト比が2.25〜3.04と4.5:1基準を満たさない（DESIGN.md自身のアクセシビリティ規定と、ブランドカラー仕様が矛盾している）。ボタン背景としての朱色（白文字時は5.5以上でOK）は問題ないが、リンクのテキストカラーとしての朱色ホバーのみ不足。色を変更するとDESIGN.mdのブランド定義を書き換えることになるため、**ユーザー確認の上でDESIGN.mdごと更新するか判断が必要**。

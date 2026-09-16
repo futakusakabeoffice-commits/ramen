@@ -1,0 +1,12 @@
+{
+  "name": "麺処 隼（はやぶさ）｜三代続く鶏白湯らーめん専門店",
+  "short_name": "麺処 隼",
+  "icons": [
+    { "src": "/images/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/images/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#B7282E",
+  "background_color": "#111010",
+  "display": "standalone",
+  "start_url": "/"
+}
