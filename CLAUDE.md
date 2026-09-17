@@ -2,6 +2,10 @@
 
 個人経営の鶏白湯らーめん専門店「麺処 隼」のマーケティングサイト。Claude Design（Claude 経由のUI生成）で作成された、ビルド不要の静的HTMLサイト。
 
+## 本番環境
+
+- **本番ドメイン**: `https://hayabusaramen.netlify.app`（Netlifyの既定サブドメイン）。全ページの `canonical` / `og:url` / `og:image` / 構造化データの `url`・`image`、`robots.txt` の `Sitemap:` 行、`sitemap.xml` の全 `<loc>` はこのドメインに統一済み。独自ドメインに切り替える場合は `grep -rl "hayabusaramen.netlify.app" .`（`.git`除く）で該当ファイルを洗い出し、一括置換すること。
+
 ## 技術構成
 
 - **静的HTML** のみ。フレームワーク・バンドラー・パッケージマネージャなし（`package.json` 等は存在しない）。
@@ -49,7 +53,6 @@ DESIGN.md            ビジュアルデザイン仕様書（カラー・タイ�
 - 最寄駅: `〇〇線〇〇駅 徒歩5分`
 - 運営者名: `個人事業主：〇〇 〇〇`
 - 電話番号: `03-0000-0000`（`shop.html` の `tel:` リンク、構造化データ、プライバシーポリシー）
-- 本番ドメイン: 全ページの `<link rel="canonical">` / `og:url` / `og:image` / 構造化データの `url`/`image`、および `robots.txt` の `Sitemap:` 行、`sitemap.xml` の全 `<loc>` が `https://example.com` のプレースホルダーになっている。実ドメイン確定後に一括置換すること（`grep -rl "example.com" .` で該当ファイルを検索できる）。
 - `CONTENTS.md` 記載の画像パス（`/images/menu-hayabusa.jpg` 等）は実装のファイル名（`images/menu-tokusei.jpg` 等）と異なる場合がある。実装側のファイル名が正なので、`CONTENTS.md` を参照する際はパスではなく文言・構成を参照すること。
 - `CONTENTS.md` にある「6. 掲載メディア（#media）」セクションは現時点で `index.html` 等の実装にまだ反映されていない（未実装）。
 - Google Maps / Instagram / X のリンクは `麺処隼` `hayabusa_ramen` のダミー想定URL。実店舗のURLに要差し替え。
@@ -96,7 +99,7 @@ DESIGN.mdの「モバイルファースト」「640px未満は横並びナビ禁
 
 - **meta title**: 全ページ「ページ内容｜キーワード | サイト名」形式・全角23〜28字程度に統一（index.htmlのみサイト名を先頭に置くホームページ慣例のパターン）。
 - **meta description**: 全ページ140〜300字で新規作成（CONTENTS.md記載の文言を元に構成）。
-- **canonical / robots meta / og:* / twitter:card**: 全ページ `<head>` に追加（ドメインは `https://example.com` のプレースホルダー、上記「未確定情報」参照）。
+- **canonical / robots meta / og:* / twitter:card**: 全ページ `<head>` に追加。ドメインは `https://hayabusaramen.netlify.app`（本番環境、上記「本番環境」参照）。
 - **favicon一式**: `logo.png` から `favicon.ico`(16/32/48/64px) / `favicon-32x32.png` / `favicon-16x16.png` / `apple-touch-icon.png`(180×180、背景色#111010) / `site.webmanifest`用 `icon-192.png` / `icon-512.png` を生成。`theme-color` は Primary `#B7282E`。
 - **og:image**: `hero-bowl.jpg` から 1200×630 にクロップした `images/og-image.jpg` を生成し全ページで共有。
 - **構造化データ**: 全ページに JSON-LD で `Restaurant`（店舗共通情報。住所・電話は上記プレースホルダーのまま）と `BreadcrumbList`（ページごと）を追加。
@@ -116,7 +119,6 @@ DESIGN.mdの「モバイルファースト」「640px未満は横並びナビ禁
 
 ### 追加素材・外部アカウント・意思決定が必要で未対応の項目
 
-- **本番ドメイン確定**: canonical/OGP/構造化データ/sitemap.xml/robots.txtの `example.com` を実ドメインに置換（Netlify等でデプロイ後に判明）。
 - **OGPシェア表示確認**: X/Facebookのデバッガーは実際に公開されたURLでないと確認できない。デプロイ後に実施。
 - **Core Web Vitals / Lighthouseスコア**: ローカルの静的ファイルではなく実際にホスティングされたURLで計測する必要がある。デプロイ後に実施。
 - **GA4 / Search Console / GTM / コンバージョン計測**: 実際の測定ID・所有権確認が必要。アカウント発行後に導入。
