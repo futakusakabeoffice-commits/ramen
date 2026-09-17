@@ -105,7 +105,7 @@ DESIGN.mdの「モバイルファースト」「640px未満は横並びナビ禁
 - **構造化データ**: 全ページに JSON-LD で `Restaurant`（店舗共通情報。住所・電話は上記プレースホルダーのまま）と `BreadcrumbList`（ページごと）を追加。
 - **画像形式**: 全JPG写真を `cwebp`相当（Pillow, quality 80）で `.webp` に変換し `<img src>` を差し替え（70〜75%軽量化）。元JPGは `images/` に未参照のまま残置。
 - **遅延読込**: 各ページのファーストビュー画像（ヘッダーロゴ、各ページ最初のヒーロー写真）以外の `<img>` に `loading="lazy"` を付与。
-- **CLS対策**: 全 `<img>` に実寸の `width`/`height` 属性を付与。
+- **CLS対策**: 全 `<img>` に実寸の `width`/`height` 属性を付与。**注意**: `aspect-ratio:4/3` を指定しているカード画像（`.../menu-*.webp` 等、index.html「人気メニュー」・menu.html「お品書き」で使用）では、`width`/`height` 属性がブラウザの presentational hint として `height:1086px` 相当の実寸CSSを暗黙に適用し、`aspect-ratio` を無効化して縦長に伸びるバグが発生した。修正として、これらの画像は style に `height:auto` を明示している（`aspect-ratio:4/3;height:auto;object-fit:cover`の順）。**`aspect-ratio` を使う新しい画像に `width`/`height` 属性を追加する場合は、必ず `height:auto` も一緒に指定すること**（`position:absolute;width:100%;height:100%` で埋めるフルブリード写真は元々 `height:100%` を明示しているため対象外）。
 - **viewport**: 全ページ既存で問題なし。
 - **レスポンシブ確認**: 375px/768px/1280px/1440pxでPlaywright実機検証済み、崩れ・横スクロールなし。
 - **alt**: 全画像に内容を説明する具体的なaltが既に設定済みであることを確認（装飾用途の画像はCSS背景/グラデーションのみでimgタグ自体が存在しないため該当なし）。
